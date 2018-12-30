@@ -1,11 +1,11 @@
 import requests
 from subprocess import call
 from copy import deepcopy
-from exceptions import FichierResponseNotOk, FichierSyntaxError, InsufficientInfoError, NotAuthorized
+from OneFichierAPI.exceptions import FichierResponseNotOk, FichierSyntaxError, InsufficientInfoError, NotAuthorized
 from json.decoder import JSONDecodeError
 import re
 import json
-from objects import FichierFile, FichierFolder
+from OneFichierAPI.objects import FichierFile, FichierFolder
 
 s = requests.Session()
 #~ s.verify = False

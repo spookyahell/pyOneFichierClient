@@ -1,9 +1,15 @@
 '''Interactive demo for OneFichierClient
 '''
 
+# Fixing import error while project is only to be used as a local copy (instead of an installation)
+import os.path
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
+
 with open('1F.t') as f:
 	x = f.read().strip()
-
+	
+#~ print(os.getcwd())
 from OneFichierAPI import FichierClient
 
 try:
@@ -57,19 +63,19 @@ def test_download_file_from_dir():
 
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' or __package__ == 'pyOneFichierAPI':
 	print('1fichier (unofficial) API client - testing module - v0.1')
 	print('This is a testing CLI, not an end-user CLI, any wanted changes are to be done in direct source editing')
 	print('Purpose: Demonstrate the client and show/explain any users how to use it')
-	
-	
+
+
 	globals()['action_remotecreate'] = test_create_remote_upload
 	globals()['action_remoteinfo'] = test_remote_upload_info
 	globals()['action_upload'] = test_upload
 	globals()['action_download'] = test_download
 	globals()['action_listfld'] = test_listfolders
 	globals()['action_dlfromdir'] = test_download_file_from_dir
-	
+
 	print('type "help" for a list of testcommands, "exit" (+Enter) or hit CTRL+C to exit')
 	print()
 	while True:

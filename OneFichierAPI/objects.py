@@ -1,4 +1,5 @@
-from exceptions import NotFoundError
+from OneFichierAPI.exceptions import NotFoundError
+
 class FichierFile(object):
 	def __init__(self, client, data):
 		self.data = data
