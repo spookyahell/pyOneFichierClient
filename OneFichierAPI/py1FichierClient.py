@@ -50,6 +50,28 @@ class FichierClient(object):
 				
 		else:
 			raise FichierResponseNotOk(f'HTTP Response code from 1fichier: {r.status_code} {r.reason}')
+			
+			
+		
+	def resolve_path(self, path):
+		#~ print(f'Resolving {path!r}...')
+		if not path.startswith('/'):
+			raise FichierSyntaxError('Paths must start from root, aka start with a forward slash ("/")')
+		folder_paths = path.split('/')
+		del folder_paths[0]
+		folder = self.get_folder()
+		for idx, folder_path in enumerate(folder_paths):
+			if idx+1 < len(folder_paths):
+				folder = folder.subfolders.get_subfolder(folder_path, only_subfolders = True)
+			else:
+				folder = folder.subfolders.get_subfolder(folder_path)
+		
+		return folder
+			
+		
+			
+		#~ if folder_paths[1] =
+		
 		
 		
 	
@@ -113,11 +135,11 @@ class FichierClient(object):
 		
 		return o
 	
-	def get_folder(self, id = 0):
-		
+	def get_folder(self, id = 0, only_subfolders = False):
 		o = self._get_folders(id)
 		
-		o.update(self._get_files(id))
+		if not only_subfolders:
+			o.update(self._get_files(id))
 		
 		return FichierFolder(self, o)
 		

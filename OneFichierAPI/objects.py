@@ -29,14 +29,14 @@ class subfolders_object(object):
 	def get_list(self):
 		return [k['name'] for k in self.data]
 		
-	def get_subfolder(self, name):
+	def get_subfolder(self, name, only_subfolders = False):
 		folder_id = None
 		for subfolder in self.data:
 			if name == subfolder['name']:
 				folder_id = subfolder['id']
 				
 		if folder_id:
-			return self.client.get_folder(folder_id)
+			return self.client.get_folder(folder_id, only_subfolders = only_subfolders)
 		else:
 			raise NotFoundError ('Folder not found')
 			

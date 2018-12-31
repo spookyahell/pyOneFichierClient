@@ -60,6 +60,10 @@ def test_download_file_from_dir():
 			#~ print(f'{name} ({email})')
 		#~ else:
 			#~ print(f'{name}')
+			
+def test_resolvepath():
+	folder = client.resolve_path('/Fox.com/New Girl')
+	print(folder.data)
 
 
 
@@ -75,6 +79,7 @@ if __name__ == '__main__' or __package__ == 'pyOneFichierAPI':
 	globals()['action_download'] = test_download
 	globals()['action_listfld'] = test_listfolders
 	globals()['action_dlfromdir'] = test_download_file_from_dir
+	globals()['action_resolvepath'] = test_resolvepath
 
 	print('type "help" for a list of testcommands, "exit" (+Enter) or hit CTRL+C to exit')
 	print()
@@ -90,6 +95,7 @@ if __name__ == '__main__' or __package__ == 'pyOneFichierAPI':
 				print('download')
 				print('listfld')
 				print('dlfromdir - download a file from a directory')
+				print('resolvepath')
 			elif f'action_{c}' in globals():
 				try:
 					globals()[f'action_{c}']()
