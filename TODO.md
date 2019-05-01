@@ -5,16 +5,6 @@
 
 API Endpoint base url is: `https://api.1fichier.com/`
 
-✖️ Retrieve file information (v1/file/info.cgi)
-
-✖️ Anti-Virus scan (v1/file/scan.cgi; not planned due to lack of requirement; need it? Give a valid reason and open a ticket)
-
-✖️ Remove files (v1/file/rm.cgi)
-
-✖️ Move files (v1/file/mv.cgi)
-
-✖️ Copy files (v1/file/cp.cgi)
-
 ✖️ Change properties of a file (v1/file/chattr.cgi)
 
 ✖️ Share a folder (v1/folder/share.cgi)
@@ -49,6 +39,16 @@ API Endpoint base url is: `https://api.1fichier.com/`
 
 ✔️ Upload a file via with information from `v1/upload/get_upload_server.cgi`
 
+
+✔️ Retrieve file information (v1/file/info.cgi)
+
+✔️ Anti-Virus scan (v1/file/scan.cgi; not planned due to lack of requirement; need it? Give a valid reason and open a ticket) (a valid reason? because i wanted to)
+
+✔️ Remove files (v1/file/rm.cgi)
+
+✔️ Move files (v1/file/mv.cgi)
+
+✔️ Copy files (v1/file/cp.cgi)
 
 ## Features of the API
 
