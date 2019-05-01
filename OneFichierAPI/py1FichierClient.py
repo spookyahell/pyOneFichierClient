@@ -147,34 +147,34 @@ class FichierClient(object):
 			
 	def get_download_link(self, url, inline = False, cdn = False, restrict_ip = False, passw = None, 
 		no_ssl = False, folder_id = None, filename = None, sharing_user = None):
-			if not self.authed:
-				self._raise_unauthorized()
-			if restrict_ip:
-				if not cdn:
-					if self.be_nice:
-						cdn = True
-					else:
-						raise FichierSyntaxError('Restricting IPs is only for CDN links')
-			params = {
-			  'url' : url,
-			  'inline' : int(inline),
-			  'cdn' : int(cdn),
-			  'restrict_ip':  int(restrict_ip),
-			  'no_ssl' : int(no_ssl),
-			}
-			if passw:
-				params['pass'] = passw
-			if folder_id is not None:
-				if filename is None:
-					raise FichierSyntaxError('Also need a filename to go along with that')
-				params.update({'folder_id' : folder_id, 'filename' : filename})
-				if folder_id == 0:
-					if sharing_user is None:
-						raise FichierSyntaxError('sharing_user not specified but required')
-					params.update({'sharing_user' : sharing_user})
-			#~ print(params)
-			o = self._APIcall('https://api.1fichier.com/v1/download/get_token.cgi', json = params)
-			return o['url']
+		if not self.authed:
+			self._raise_unauthorized()
+		if restrict_ip:
+			if not cdn:
+				if self.be_nice:
+					cdn = True
+				else:
+					raise FichierSyntaxError('Restricting IPs is only for CDN links')
+		params = {
+			'url' : url,
+			'inline' : int(inline),
+			'cdn' : int(cdn),
+			'restrict_ip':  int(restrict_ip),
+			'no_ssl' : int(no_ssl),
+		}
+		if passw:
+			params['pass'] = passw
+		if folder_id is not None:
+			if filename is None:
+				raise FichierSyntaxError('Also need a filename to go along with that')
+			params.update({'folder_id' : folder_id, 'filename' : filename})
+			if folder_id == 0:
+				if sharing_user is None:
+					raise FichierSyntaxError('sharing_user not specified but required')
+				params.update({'sharing_user' : sharing_user})
+		#~ print(params)
+		o = self._APIcall('https://api.1fichier.com/v1/download/get_token.cgi', json = params)
+		return o['url']
 			
 	def upload_file(self, file_path):
 		o = self._APIcall('https://api.1fichier.com/v1/upload/get_upload_server.cgi', method = 'GET')
@@ -200,3 +200,99 @@ class FichierClient(object):
 		else:
 			raise FichierResponseNotOk('Missing download link')
 		
+	def get_file_info(self, url, passw = None, folder_id = None, filename = None, sharing_user = None):
+		if not self.authed:
+			self._raise_unauthorized()
+		params = {
+			'url' : url
+		}
+		if passw:
+			params['pass'] = passw
+		if folder_id is not None:
+			if filename is None:
+				raise FichierSyntaxError('Also need a filename to go along with that')
+			params.update({'folder_id' : folder_id, 'filename' : filename})
+			if folder_id == 0:
+				if sharing_user is None:
+					raise FichierSyntaxError('sharing_user not specified but required')
+				params.update({'sharing_user' : sharing_user})
+
+		o = self._APIcall('https://api.1fichier.com/v1/file/info.cgi', json = params)
+		return o
+
+	def virus_scan(self, url):
+		if not self.authed:
+			self._raise_unauthorized()
+		params = {
+			'url' : url
+		}
+  
+		o = self._APIcall('https://api.1fichier.com/v1/file/scan.cgi', json = params)
+		return o
+
+	def remove_file(self, urls, codes=None):
+		if not self.authed:
+			self._raise_unauthorized()
+		if codes:
+			try:
+				params = {
+					'files': [{'url': urls[i], 'code': codes[i]} for i in range(len(urls))]
+				}
+			except IndexError:
+				raise FichierSyntaxError('If codes specified, it must be at least the length of the url list')
+		else:
+			params = {
+				'files': [{'url': i} for i in urls]
+			}
+
+		o = self._APIcall('https://api.1fichier.com/v1/file/rm.cgi', json = params)
+		return {'status': o['status'], 'removed': o['removed']}
+
+	def move_file(self, urls, destination_folder = None, destination_user = '', rename = ''):
+     
+		if not destination_folder and destination_user:
+			raise FichierSyntaxError('If destination_folder unspecified or 0, destination_user must be specified')
+
+		if rename and len(urls) > 1:
+			raise FichierSyntaxError('Cannot rename multiple urls at once')
+
+		params = {
+			'urls': urls
+		}
+
+		if destination_folder:
+			params.update({'destination_folder_id': destination_folder})
+		else:
+			params.update({'destination_folder_id': 0, 'destination_user': destination_user})
+   
+		if rename:
+			params.update({'rename': rename})
+   
+		o = self._APIcall('https://api.1fichier.com/v1/file/mv.cgi', json=params)
+		return {'status': o['status'], 'moved': o['moved']}
+
+	def copy_file(self, urls, destination_folder = None, destination_user = '', rename = '', passw = ''):
+     
+		if not destination_folder and destination_user:
+			raise FichierSyntaxError('If destination_folder unspecified or 0, destination_user must be specified')
+
+		if rename and len(urls) > 1:
+			raise FichierSyntaxError('Cannot rename multiple urls at once')
+
+		params = {
+			'urls': urls
+		}
+
+		if destination_folder:
+			params.update({'folder_id': destination_folder})
+		else:
+			params.update({'folder_id': 0, 'sharing_user': destination_user})
+   
+		if rename:
+			params.update({'rename': rename})
+   
+		if passw:
+			params.update({"pass": passw})
+   
+		o = self._APIcall('https://api.1fichier.com/v1/file/cp.cgi', json=params)
+		return {'status': o['status'], 'copied': o['copied']}
