@@ -42,7 +42,7 @@ API Endpoint base url is: `https://api.1fichier.com/`
 
 ✔️ Retrieve file information (v1/file/info.cgi)
 
-✔️ Anti-Virus scan (v1/file/scan.cgi; not planned due to lack of requirement; need it? Give a valid reason and open a ticket) (a valid reason? because i wanted to)
+✔️ Anti-Virus scan (v1/file/scan.cgi)
 
 ✔️ Remove files (v1/file/rm.cgi)
 
