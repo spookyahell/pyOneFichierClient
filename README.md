@@ -8,6 +8,7 @@ If you're interested in how to use it in your own project you can have a look at
 <br /> which also functions as a nice executable module...
 
 You can install it from PyPI! [pyOneFichierClient on PyPI](https://pypi.org/project/pyOneFichierClient/)
+<br />`pip install pyOneFichierClient`
 <br />Spread the word! On Twitter and all the other shitty places on this thing we like calling internet.
 
 Just need to be in the parent dir of the entire project and run `python -m pyOneFichierClient` and the interactive client will launch...
