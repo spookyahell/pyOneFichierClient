@@ -1,16 +1,32 @@
 '''Interactive demo for OneFichierClient
 '''
 
-# Fixing import error while project is only to be used as a local copy (instead of an installation)
-import os.path
+#Get the tokenfilename (relying on OS)
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
+import platform
+from os import environ
+system = platform.system()
+BASE_FNAME = '1F.t'
+if system == 'Windows':
+	token_path = environ['USERPROFILE'] + '\\' + BASE_FNAME
+elif system == 'Linux':
+	token_path = environ['HOME'] + '/' + BASE_FNAME
+else:
+	print(f'Your system ({system}) is currently not supported. Sorry.')
+	sys.exit(1)
 
-with open('1F.t') as f:
-	x = f.read().strip()
-	
-#~ print(os.getcwd())
-from OneFichierAPI import FichierClient
+try:
+	with open(token_path) as f:
+		x = f.read().strip()
+		
+	from .OneFichierAPI import FichierClient
+except FileNotFoundError:
+	print(f'Ooops! - ERR - You seem to be missing the token file ({token_path!r}).\nYou can set it by running >python3 -m pyOneFichierClient.setToken later or by confirming the next question with yes.\nYou will need to run the command again once set.')
+	x = input('Set token now? (Y/N): ')
+	if x.lower() == 'y':
+		from .setToken import __main__
+		sys.exit(0)
+	sys.exit(1)
 
 try:
 	input('Hit enter to use authed version, hit CTRL+C for anonymous version')
