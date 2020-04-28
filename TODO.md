@@ -62,4 +62,4 @@ API Endpoint base url is: `https://api.1fichier.com/`
 
 ✔ Create file and folder objects (unfinished)
 
-✖️ Managing files (listing, deleting, moving)
+✖️ Managing files (listing, deleting, moving) | Nothing stopping you from doing it manually but the convinient features of the API client I wanna produce some day are not ready yet
