@@ -181,7 +181,7 @@ class FichierClient(object):
         up_srv = o['url']
         id = o['id']
         
-        multiple_files = [('file[]', ('TESTFILE.dat', open('TESTFILE.dat', 'rb'), 'application/octet-stream'))]
+        multiple_files = [('file[]', (file_path, open(file_path, 'rb'), 'application/octet-stream'))]
         
         up_u = f'https://{up_srv}/upload.cgi?id={id}'
         if self.authed is True:
