@@ -47,7 +47,26 @@ def test_remote_upload_info():
 	print(remote_upload_info)
 
 def test_create_remote_upload():
-	remote_upload = client.remote_upload_create(['http://cdnbakmi.kaltura.com/p/1068292/sp/106829200/raw/entry_id/1_m0dppps6/version/0'], 
+	remote_upload = client.remote_upload_create([input('Type a link: ')], 
+		headers = {'X-Forwarded-For':'84.183.213.105'})
+
+	print(remote_upload)
+
+def test_create_remote_upload_x():
+	times = 2
+	try:
+		times_str = input('How many links do you have? [int] ')
+		times = int(times_str)
+	except KeyboardInterrupt:
+		pass
+	except ValueError:
+		print('Error: Not a numeric value')
+		return
+	
+	upload_list = []
+	for i in range(0, times):
+		upload_list.append(input(f'Type link #{i+1}: '))
+	remote_upload = client.remote_upload_create(upload_list, 
 		headers = {'X-Forwarded-For':'84.183.213.105'})
 
 	print(remote_upload)
@@ -57,7 +76,7 @@ def test_upload():
 	print(upload)
 
 def test_download():
-	download_url = client.get_download_link('https://1fichier.com/?7ci53nacg4cx7hnogdyj', cdn = True, restrict_ip = 2)
+	download_url = client.get_download_link(input('Type a 1fichier link: '), cdn = True, restrict_ip = 2)
 	print(download_url)
 
 def test_listfolders():
@@ -90,6 +109,7 @@ if __name__ == '__main__' or __package__ == 'pyOneFichierAPI':
 
 
 	globals()['action_remotecreate'] = test_create_remote_upload
+	globals()['action_remotecreatex'] = test_create_remote_upload_x
 	globals()['action_remoteinfo'] = test_remote_upload_info
 	globals()['action_upload'] = test_upload
 	globals()['action_download'] = test_download
@@ -107,6 +127,7 @@ if __name__ == '__main__' or __package__ == 'pyOneFichierAPI':
 				print('--HELP--')
 				print('remoteinfo')
 				print('remotecreate')
+				print('remotecreatex - Upload as many links as you\'d like.')
 				print('upload (A)')
 				print('download')
 				print('listfld')
