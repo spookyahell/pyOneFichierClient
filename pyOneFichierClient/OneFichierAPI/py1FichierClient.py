@@ -177,28 +177,29 @@ class FichierClient(object):
         return o['url']
             
     def upload_file(self, file_path):
-        o = self._APIcall('https://api.1fichier.com/v1/upload/get_upload_server.cgi', method = 'GET')
-        up_srv = o['url']
-        id = o['id']
-        
-        multiple_files = [('file[]', (file_path, open(file_path, 'rb'), 'application/octet-stream'))]
-        
-        up_u = f'https://{up_srv}/upload.cgi?id={id}'
-        if self.authed is True:
-            r = s.post(up_u, files = multiple_files, headers = self.auth_nc, allow_redirects = False)
-        else:
-            r = s.post(up_u, files = multiple_files, allow_redirects = False)
-        if not 'Location' in r.headers:
-            raise FichierResponseNotOk('Missing Locatiion header in response')
-        loc = r.headers['Location']
-        
-        r = s.get(f'https://{up_srv}{loc}')
-        
-        x = re.search('<td class="normal"><a href="(.+)"', r.text)
-        if x:
-            return x.group(1)
-        else:
-            raise FichierResponseNotOk('Missing download link')
+        with open(file_path, 'rb') as file:
+            files = {'file': file}
+            o = self._APIcall('https://api.1fichier.com/v1/upload/get_upload_server.cgi', method='GET')
+            up_srv = o['url']
+            id = o['id']
+            up_url = f'https://{up_srv}/upload.cgi?id={id}'
+    
+            if self.authed:
+                r = s.post(up_url, files=files, headers=self.auth_nc, allow_redirects=False)
+            else:
+                r = s.post(up_url, files=files, allow_redirects=False)
+    
+            if 'Location' not in r.headers:
+                raise FichierResponseNotOk('Missing Location header in response')
+            loc = r.headers['Location']
+    
+            r = s.get(f'https://{up_srv}{loc}')
+    
+            x = re.search('<td class="normal"><a href="(.+)"', r.text)
+            if x:
+                return x.group(1)
+            else:
+                raise FichierResponseNotOk('Missing download link')
         
     def get_file_info(self, url, passw = None, folder_id = None, filename = None, sharing_user = None):
         if not self.authed:
