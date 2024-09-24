@@ -15,9 +15,9 @@ Just need to be in the parent dir of the entire project and run `python -m pyOne
 
 If you want to know what you can already do with this version of the API, you can also check out [API Endpoints](TODO.md#api-endpoints)
 
-## Possible forced updates
+## Note regarding PFUs
 I don't use git often and I haven't with this project in quite a while.
-<br>Beware of forced pushes. (forced updates)
+<br>Beware of forced pushes. (possible forced updates - PFU)
 <br>They can and will happen.
 
 ## Updates to the project
