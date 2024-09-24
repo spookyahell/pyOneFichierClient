@@ -15,8 +15,12 @@ Just need to be in the parent dir of the entire project and run `python -m pyOne
 
 If you want to know what you can already do with this version of the API, you can also check out [API Endpoints](TODO.md#api-endpoints)
 
-## Recomendation
-Do not update on Friday - Sunday because that are times when I am mainly working on this... if you do beware there can be (not that it's planned) so called forced updates which could screw up your updating...
-<br />I will try to leave a message in the README (right here) whenever I do not plan on working on the API and it's okay to update it...
+## Possible forced updates
+I don't use git often and I haven't with this project in quite a while.
+<br>Beware of forced pushes. (forced updates)
+<br>They can and will happen.
 
-<em>Update April 21st 2024: Updates have been stale and project sorta unmaintained but I just created three real issues that I hope to tackle soon. I'd recommend you don't update until all three have been closed out.</em>
+## Updates to the project
+- <em>Update April 21st 2024: Updates have been stale and project sorta unmaintained but I just created three real issues that I hope to tackle soon. I'd recommend you don't update until all three have been closed out.</em>
+- <em>Update September 24th 2024: Updates still as stale as ever. Might be getting somewhere soon?
+<br>But not sure. Check [issues](https://github.com/spookyahell/pyOneFichierClient/issues) for scheduled changes.</em>
